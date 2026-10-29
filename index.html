@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JS Event Arcade 🎮 | Laboratório Interativo de Eventos JavaScript</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Cabeçalho -->
+  <header class="main-header">
+    <div class="header-container">
+      <div class="logo-area">
+        <span class="arcade-badge">PROJETO SALA DE AULA INVERTIDA</span>
+        <h1>⚡ JS Event Arcade</h1>
+        <p class="subtitle">Descubra, interaja e domine os 10 eventos fundamentais do JavaScript na prática!</p>
+      </div>
+
+      <div class="header-controls">
+        <!-- Placar de Progresso dos Eventos -->
+        <div class="progress-box">
+          <div class="progress-info">
+            <span class="progress-label">Eventos Descobertos:</span>
+            <span id="events-count" class="progress-number">0 / 10</span>
+          </div>
+          <div class="progress-bar-bg">
+            <div id="progress-bar" class="progress-bar-fill"></div>
+          </div>
+          <div id="badges-container" class="badges-row">
+            <span class="badge" data-event="click" title="Click">CLICK</span>
+            <span class="badge" data-event="mouseover" title="MouseOver">OVER</span>
+            <span class="badge" data-event="mouseout" title="MouseOut">OUT</span>
+            <span class="badge" data-event="input" title="Input">INPUT</span>
+            <span class="badge" data-event="change" title="Change">CHANGE</span>
+            <span class="badge" data-event="keydown" title="KeyDown">KEY</span>
+            <span class="badge" data-event="dblclick" title="DblClick">DBLCLICK</span>
+            <span class="badge" data-event="focus" title="Focus">FOCUS</span>
+            <span class="badge" data-event="blur" title="Blur">BLUR</span>
+            <span class="badge" data-event="submit" title="Submit">SUBMIT</span>
+          </div>
+        </div>
+
+        <!-- Botões de Ação Rápida -->
+        <div class="action-buttons">
+          <button id="toggle-sound-btn" class="ctrl-btn" title="Ligar/Desligar Efeitos Sonoros">
+            <span class="icon">🔊</span> <span id="sound-status">Som: ON</span>
+          </button>
+          <button id="toggle-console-btn" class="ctrl-btn primary" title="Ver Console de Eventos">
+            <span class="icon">💻</span> Ver Console (<span id="log-counter">0</span>)
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Layout Principal -->
+  <main class="container">
+    <div class="stations-grid">
+
+      <!-- ==============================================
+           ESTAÇÃO 1: CLICK
+           ============================================== -->
+      <section class="card station-card" id="card-click">
+        <div class="card-header">
+          <span class="card-pill click-color">1. CLICK</span>
+          <h2>💥 Estourador de Balões</h2>
+        </div>
+        <p class="card-desc">O evento <code>click</code> é disparado quando o botão principal do mouse é pressionado e solto sobre o elemento.</p>
+        
+        <div class="stage" id="stage-click">
+          <div class="balloon-wrapper">
+            <div id="balloon" class="balloon" tabindex="0">
+              <span class="balloon-face">🎈</span>
+              <div class="balloon-string"></div>
+            </div>
+          </div>
+          <div class="score-display">
+            Pontos de Explosão: <strong id="click-counter">0</strong>
+          </div>
+        </div>
+
+        <div class="card-footer">
+          <button id="click-btn" class="play-btn">Clique para Inflar e Estourar!</button>
+          <div class="code-snippet">
+            <code>balloon.addEventListener('click', (e) => { ... })</code>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==============================================
+           ESTAÇÃO 2: MOUSEOVER & MOUSEOUT
+           ============================================== -->
+      <section class="card station-card" id="card-mouse">
+        <div class="card-header">
+          <span class="card-pill mouse-color">2. MOUSEOVER & MOUSEOUT</span>
+          <h2>🐱 O Gatinho Mágico</h2>
+        </div>
+        <p class="card-desc"><code>mouseover</code> dispara quando o ponteiro entra no elemento; <code>mouseout</code> dispara quando ele se afasta.</p>
+        
+        <div class="stage" id="stage-mouse">
+          <div id="pet-area" class="pet-zone">
+            <div id="pet-emoji" class="pet-emoji">😴</div>
+            <div id="pet-speech" class="pet-speech">Zzz... Passe o mouse aqui para me acordar!</div>
+            <div class="pet-aura" id="pet-aura"></div>
+          </div>
+          <div class="pet-status">
+            Estado Atual: <span id="pet-state-text" class="status-badge sleep">Dormindo</span>
+          </div>
+        </div>
+
+        <div class="card-footer">
+          <div class="code-snippet">
+            <code>pet.addEventListener('mouseover', acordar);</code><br>
+            <code>pet.addEventListener('mouseout', dormir);</code>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==============================================
+           ESTAÇÃO 3: INPUT
+           ============================================== -->
+      <section class="card station-card" id="card-input">
+        <div class="card-header">
+          <span class="card-pill input-color">3. INPUT</span>
+          <h2>🤖 Robô Transmissor</h2>
+        </div>
+        <p class="card-desc">O evento <code>input</code> dispara <strong>imediatamente a cada caractere</strong> digitado, apagado ou colado no campo.</p>
+        
+        <div class="stage" id="stage-input">
+          <div class="robot-display">
+            <div class="robot-head" id="robot-head">
+              <span class="robot-antenna" id="robot-antenna">📡</span>
+              <span class="robot-face" id="robot-face">🤖</span>
+            </div>
+            <div class="screen-box">
+              <div class="screen-label">Transmissão em Tempo Real:</div>
+              <div id="robot-live-text" class="screen-text">Aguardando sinal...</div>
+            </div>
+          </div>
+          
+          <div class="input-stats">
+            <span>Caracteres: <strong id="char-count">0</strong></span>
+            <span>Palavras: <strong id="word-count">0</strong></span>
+          </div>
+
+          <div class="field-group">
+            <input type="text" id="live-input" placeholder="Digite algo aqui para o robô falar..." autocomplete="off">
+          </div>
+        </div>
+
+        <div class="card-footer">
+          <div class="code-snippet">
+            <code>input.addEventListener('input', (e) => { texto.innerText = e.target.value })</code>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==============================================
+           ESTAÇÃO 4: CHANGE
+           ============================================== -->
+      <section class="card station-card" id="card-change">
+        <div class="card-header">
+          <span class="card-pill change-color">4. CHANGE</span>
+          <h2>🧪 Caldeirão Alquímico</h2>
+        </div>
+        <p class="card-desc">O evento <code>change</code> dispara quando a alteração do valor é <strong>confirmada</strong> (ao selecionar opção ou ao perder o foco).</p>
+        
+        <div class="stage" id="stage-change">
+          <div class="cauldron-wrap">
+            <div id="cauldron-liquid" class="cauldron-liquid">
+              <div class="bubbles" id="bubbles-container"></div>
+              <span id="potion-icon" class="potion-icon">✨</span>
+            </div>
+            <div class="cauldron-pot">⚗️</div>
+          </div>
+
+          <div class="potion-controls">
+            <div class="form-row">
+              <label for="potion-select">Selecione o Elixir:</label>
+              <select id="potion-select">
+                <option value="water">Água Pura (Neutro)</option>
+                <option value="fire">Fogo Dracônico (Vermelho Flamejante)</option>
+                <option value="nature">Essência da Floresta (Verde Tóxico)</option>
+                <option value="cosmic">Nebulosa Cósmica (Roxo Radiante)</option>
+                <option value="gold">Ouro Líquido Midas (Dourado Brilhante)</option>
+              </select>
+            </div>
+
+            <div class="form-row">
+              <label for="potion-range">Intensidade do Brilho (solte para ativar o change):</label>
+              <input type="range" id="potion-range" min="10" max="100" value="50">
+            </div>
+          </div>
+        </div>
+
+        <div class="card-footer">
+          <div class="potion-message" id="potion-msg">Escolha uma fórmula acima para preparar a poção!</div>
+          <div class="code-snippet">
+            <code>select.addEventListener('change', misturarPocao);</code>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==============================================
+           ESTAÇÃO 5: KEYDOWN
+           ============================================== -->
+      <section class="card station-card" id="card-keydown">
+        <div class="card-header">
+          <span class="card-pill keydown-color">5. KEYDOWN</span>
+          <h2>🎹 Pista de Dança & Sintetizador</h2>
+        </div>
+        <p class="card-desc">O evento <code>keydown</code> dispara assim que uma tecla do teclado físico é <strong>pressionada</strong>.</p>
+        
+        <div class="stage" id="stage-keydown">
+          <div class="dancer-stage">
+            <div id="dancer" class="dancer">🕺</div>
+            <div class="dance-floor" id="dance-floor"></div>
+          </div>
+
+          <div class="key-monitor">
+            <div class="key-box">
+              <span class="key-title">Tecla Detectada:</span>
+              <span id="key-name" class="key-badge">Nenhuma tecla</span>
+            </div>
+            <div class="key-box">
+              <span class="key-title">Código (e.code):</span>
+              <span id="key-code" class="key-detail">-</span>
+            </div>
+          </div>
+
+          <div class="virtual-keys" id="piano-keys">
+            <button class="vkey" data-key="a">A<small>Dó</small></button>
+            <button class="vkey" data-key="s">S<small>Ré</small></button>
+            <button class="vkey" data-key="d">D<small>Mi</small></button>
+            <button class="vkey" data-key="f">F<small>Fá</small></button>
+            <button class="vkey" data-key="g">G<small>Sol</small></button>
+            <button class="vkey" data-key="h">H<small>Lá</small></button>
+            <button class="vkey" data-key="j">J<small>Si</small></button>
+            <button class="vkey" data-key="space">Espaço<small>Pulo</small></button>
+          </div>
+          <p class="hint">💡 Pressione qualquer tecla do seu teclado ou clique nas teclas acima!</p>
+        </div>
+
+        <div class="card-footer">
+          <div class="code-snippet">
+            <code>window.addEventListener('keydown', (e) => { moverDancarino(e.key) })</code>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==============================================
+           ESTAÇÃO 6: DBLCLICK (DUPLO CLIQUE)
+           ============================================== -->
+      <section class="card station-card" id="card-dblclick">
+        <div class="card-header">
+          <span class="card-pill dblclick-color">6. DBLCLICK</span>
+          <h2>🥚 O Ovo do Dragão Lendário</h2>
+        </div>
+        <p class="card-desc">O evento <code>dblclick</code> só dispara quando ocorrem dois cliques <strong>rápidos e consecutivos</strong> no mesmo elemento.</p>
+        
+        <div class="stage" id="stage-dblclick">
+          <div id="egg-container" class="egg-container">
+            <div id="dragon-egg" class="dragon-egg" title="Dê um DUPLO CLIQUE rápido!">
+              <div class="egg-shell">🥚</div>
+            </div>
+            <div id="dragon-baby" class="dragon-baby hidden">
+              <span class="baby-emoji">🐉</span>
+              <div class="fire-breath">🔥</div>
+            </div>
+          </div>
+          <div id="egg-hint" class="egg-hint">
+            Dê um <strong>DUPLO CLIQUE</strong> rápido no ovo para chocá-lo!
+          </div>
+        </div>
+
+        <div class="card-footer">
+          <button id="reset-egg-btn" class="secondary-btn hidden">Encantar Outro Ovo 🔄</button>
+          <div class="code-snippet">
+            <code>egg.addEventListener('dblclick', chocarDragao);</code>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==============================================
+           ESTAÇÃO 7: FOCUS & BLUR
+           ============================================== -->
+      <section class="card station-card" id="card-focus-blur">
+        <div class="card-header">
+          <span class="card-pill focus-color">7. FOCUS & BLUR</span>
+          <h2>🔦 O Guardião dos Holofotes</h2>
+        </div>
+        <p class="card-desc"><code>focus</code> ocorre ao <strong>entrar</strong> no elemento (recebe atenção); <code>blur</code> ocorre ao <strong>sair</strong> (perde o foco).</p>
+        
+        <div class="stage" id="stage-focus">
+          <div id="spotlight-room" class="spotlight-room">
+            <div id="guardian-avatar" class="guardian-avatar">🦉</div>
+            <div id="guardian-dialogue" class="guardian-dialogue">
+              Clique no campo secreto abaixo para acender os holofotes!
+            </div>
+            <div class="spotlight-beam" id="beam-left"></div>
+            <div class="spotlight-beam" id="beam-right"></div>
+          </div>
+
+          <div class="field-group focus-field-wrap">
+            <label for="secret-agent-input">Campo de Acesso Restrito:</label>
+            <input type="text" id="secret-agent-input" placeholder="Clique aqui (focus) e depois clique fora (blur)...">
+            <div class="focus-indicators">
+              <span id="badge-focus" class="indicator-tag">FOCUS: Inativo</span>
+              <span id="badge-blur" class="indicator-tag">BLUR: Aguardando</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-footer">
+          <div class="code-snippet">
+            <code>input.addEventListener('focus', acenderHolofotes);</code><br>
+            <code>input.addEventListener('blur', apagarHolofotes);</code>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==============================================
+           ESTAÇÃO 8: SUBMIT
+           ============================================== -->
+      <section class="card station-card full-width" id="card-submit">
+        <div class="card-header">
+          <span class="card-pill submit-color">8. SUBMIT</span>
+          <h2>🚀 Centro de Lançamento Espacial</h2>
+        </div>
+        <p class="card-desc">O evento <code>submit</code> ocorre ao enviar um formulário. Com <code>e.preventDefault()</code>, impedimos que a página recarregue e executamos nossa lógica personalizada!</p>
+        
+        <div class="stage stage-horizontal" id="stage-submit">
+          <!-- Formulário de Lançamento -->
+          <form id="rocket-form" class="rocket-form">
+            <div class="form-grid">
+              <div class="field-item">
+                <label for="pilot-name">Nome do Comandante: *</label>
+                <input type="text" id="pilot-name" placeholder="Ex: Neil Armstrong" required>
+              </div>
+
+              <div class="field-item">
+                <label for="destination-planet">Destino da Missão:</label>
+                <select id="destination-planet">
+                  <option value="Marte">🔴 Marte (Planeta Vermelho)</option>
+                  <option value="Lua">⚪ Lua (Base Lunar Artemis)</option>
+                  <option value="Saturno">🪐 Saturno (Anéis de Gelo)</option>
+                  <option value="Andrômeda">🌌 Galáxia de Andrômeda</option>
+                </select>
+              </div>
+
+              <div class="field-item">
+                <label for="crew-count">Tripulantes a Bordo:</label>
+                <input type="number" id="crew-count" min="1" max="100" value="4">
+              </div>
+            </div>
+
+            <div class="form-actions">
+              <button type="submit" id="launch-button" class="launch-btn">
+                <span>🚀 INICIAR LANÇAMENTO (SUBMIT)</span>
+              </button>
+            </div>
+          </form>
+
+          <!-- Arena de Animação do Foguete -->
+          <div class="launchpad-area">
+            <div class="launch-sky" id="launch-sky">
+              <div id="rocket" class="rocket">
+                <span class="rocket-body">🚀</span>
+                <div id="rocket-flame" class="rocket-flame hidden">🔥💨</div>
+              </div>
+              <div class="space-stars"></div>
+            </div>
+            <div id="launch-terminal" class="launch-terminal">
+              <span class="terminal-cursor">></span> Sistema pronto. Preencha os dados e pressione SUBMIT.
+            </div>
+          </div>
+        </div>
+
+        <div class="card-footer">
+          <div class="code-snippet">
+            <code>form.addEventListener('submit', (e) => { e.preventDefault(); lancarFoguete(); });</code>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- ==============================================
+       PAINEL DO CONSOLE / LOG DE EVENTOS (FLUTUANTE / DRAWER)
+       ============================================== -->
+  <aside id="console-drawer" class="console-drawer">
+    <div class="drawer-header">
+      <div class="drawer-title">
+        <span class="terminal-dot red"></span>
+        <span class="terminal-dot yellow"></span>
+        <span class="terminal-dot green"></span>
+        <h3>📡 Monitor de Eventos em Tempo Real</h3>
+      </div>
+      <div class="drawer-tools">
+        <button id="clear-logs-btn" class="mini-btn" title="Limpar Registros">Limpar</button>
+        <button id="close-console-btn" class="close-btn" title="Fechar Console">✕</button>
+      </div>
+    </div>
+    
+    <div class="drawer-body">
+      <div class="filters-bar">
+        <span>Filtrar por evento:</span>
+        <div class="filter-chips" id="filter-chips">
+          <button class="chip active" data-filter="all">Todos</button>
+          <button class="chip" data-filter="click">click</button>
+          <button class="chip" data-filter="mouseover">mouseover</button>
+          <button class="chip" data-filter="mouseout">mouseout</button>
+          <button class="chip" data-filter="input">input</button>
+          <button class="chip" data-filter="change">change</button>
+          <button class="chip" data-filter="keydown">keydown</button>
+          <button class="chip" data-filter="dblclick">dblclick</button>
+          <button class="chip" data-filter="focus">focus</button>
+          <button class="chip" data-filter="blur">blur</button>
+          <button class="chip" data-filter="submit">submit</button>
+        </div>
+      </div>
+
+      <div id="logs-container" class="logs-container">
+        <div class="empty-log-msg">
+          Nenhum evento registrado ainda. Interaja com as estações na tela!
+        </div>
+      </div>
+    </div>
+
+    <div class="drawer-footer">
+      <span>Total de eventos disparados nesta sessão: <strong id="total-events-fired">0</strong></span>
+    </div>
+  </aside>
+
+  <!-- Modal de Parabéns / Sucesso 100% -->
+  <div id="celebration-modal" class="modal-overlay hidden">
+    <div class="modal-content">
+      <div class="modal-confetti">🎉🏆✨</div>
+      <h2>Parabéns, Mestre dos Eventos!</h2>
+      <p>Você explorou e acionou com sucesso todos os 10 eventos JavaScript do laboratório:</p>
+      <div class="modal-events-list">
+        <code>click</code> • <code>mouseover</code> • <code>mouseout</code> • <code>input</code> • <code>change</code> • <code>keydown</code> • <code>dblclick</code> • <code>focus</code> • <code>blur</code> • <code>submit</code>
+      </div>
+      <p class="modal-quote">"Eventos são o coração da interatividade e da experiência do usuário na Web moderna."</p>
+      <button id="close-modal-btn" class="play-btn">Continuar Experimentando</button>
+    </div>
+  </div>
+
+  <!-- Rodapé Educativo -->
+  <footer class="main-footer">
+    <div class="footer-content">
+      <p>🎓 <strong>Projeto Sala de Aula Invertida</strong> — Eventos JavaScript</p>
+      <p>Desenvolvido para aprendizado interativo com HTML5, CSS3 Moderno e Vanilla JavaScript.</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
